@@ -1,0 +1,18 @@
+curl -XPOST "http://admin:cloudt3118@localhost:9000/perth/_index" \
+--header "Content-Type: application/json" --data '{
+   "ddoc": "bounding_box_index",
+   "index": {
+      "fields": ["SA3_Name","user.followers_count","created_at","coordinates","place.bounding_box"]
+   },
+   "name": "bounding_box",
+   "type": "json"
+}'
+curl -XPOST "http://admin:cloudt3118@localhost:9000/perth/_index" \
+--header "Content-Type: application/json" --data '{
+   "ddoc": "coord_index",
+   "index": {
+      "fields": ["SA3_Name","user.followers_count","created_at","coordinates"]
+   },
+   "name": "coordinates",
+   "type": "json"
+}'
