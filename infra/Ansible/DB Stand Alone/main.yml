@@ -1,0 +1,65 @@
+- name: "Create CouchDB user's home directories"
+  file: path=/home/couchdb/ state=directory
+
+- name: "Update and upgrade apt packages"
+  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: "Install pre-requisite packages"
+  become: true
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  with_items:
+    - build-essential
+    - pkg-config
+    - runit
+    - erlang
+    - libicu-dev
+    - libmozjs185-dev
+    - libcurl4-openssl-dev
+
+- name: "Create CouchDB user"
+  user:
+   name: couchdb
+   password: 'cloudt3118'
+   state: present
+   shell: /bin/bash
+   system: yes
+   createhome: yes
+   home: /home/couchdb
+
+- name: "Transfer the Node JS Installation script"
+  copy: src=/home/ubuntu/installNodeJSdb.sh dest=/home/couchdb mode=0777
+
+- name: "Execute the script"
+  become: true
+  command: sh /home/couchdb/installNodeJSdb.sh
+
+- name: "Transfer the reference script for couchdb"
+  copy: src=/home/ubuntu/couchDBinstall.sh dest=/home/couchdb mode=0777
+
+- name: "Execute the script"
+  become: true
+  command: sh /home/couchdb/couchDBinstall.sh
+
+- name: "Update apt packages"
+  become: true
+  apt:
+    update_cache: yes
+
+- name: "Install Couch DB"
+  become: true
+  apt:
+    name: couchdb
+    state: present
+
+- name: "Transfer the CouchDB VM.ARGS configuration change script"
+  copy: src=/home/ubuntu/modifyvmargs.sh dest=/home/couchdb mode=0777
+
+- name: "Execute the changes"
+  become: true
+  command: sh /home/couchdb/modifyvmargs.sh

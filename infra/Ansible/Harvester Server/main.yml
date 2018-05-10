@@ -1,0 +1,159 @@
+- name: "Creating harvester home directories"
+  file: path=/home/ubuntu/harvester/ state=directory
+
+- name: "Creating harvester shell Installation directories"
+  file: path=/home/ubuntu/harvester/install_files state=directory
+
+- name: "Update and upgrade apt packages"
+  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: "Install pre-requisite packages"
+  become: true
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python3-venv
+    - python3-pip
+  extra_args: -y
+
+- name: "Transfer the Node JS Installation script"
+  copy: src=/home/ubuntu/installNodeJSh.sh dest=/home/ubuntu/harvester/install_files mode=0777
+
+- name: "Execute the script"
+  become: true
+  command: sh /home/ubuntu/harvester/install_files/installNodeJSh.sh
+
+- name: "Update apt packages"
+  become: true
+  apt:
+    update_cache: yes
+
+- name: "Creating harvester AURIN Geography data directories"
+  file: path=/home/ubuntu/harvester/Aurin_JSON/ state=directory
+
+- name: "Creating harvester log directory"
+  file: path=/home/ubuntu/harvester/log/ state=directory
+
+- name: "Upgrade PIP"
+  pip:
+    name: pip
+    state: latest
+    executable: /usr/bin/pip3
+
+- name: "Install Harvester dependencies"
+  pip:
+    name: jupyter
+    executable: /usr/bin/pip3
+
+- name: "Install Harvester dependencies"
+  pip:
+    name: shapely
+    executable: /usr/bin/pip3
+
+- name: "Install Harvester dependencies"
+  pip:
+    name: pandas
+    executable: /usr/bin/pip3
+
+- name: "Install Harvester dependencies"
+  pip:
+    name: plotly
+    executable: /usr/bin/pip3
+
+- name: "Install Harvester dependencies"
+  pip:
+    name: ijson
+    executable: /usr/bin/pip3
+
+- name: "Install Harvester dependencies"
+  pip:
+    name: tweepy
+    executable: /usr/bin/pip3
+
+- name: "Install Harvester dependencies"
+  pip:
+    name: couchdb
+    executable: /usr/bin/pip3
+
+- name: "Install Harvester dependencies"
+  pip:
+    name: jupyter
+    executable: /usr/bin/pip3
+
+- name: "Install Harvester dependencies"
+  pip:
+    name: emoji
+    executable: /usr/bin/pip3
+
+- name: "Install Harvester dependencies"
+  pip:
+    name: textblob
+    executable: /usr/bin/pip3
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/Adelaide_Harvester.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/Brisbane_Harvester.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/Canberra_Harvester.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/Sydney_Harvester.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/Perth_Harvester.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/Melbourne_Harvester.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/TwitterCredentialsB.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/TwitterCredentialsC.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/TwitterCredentialsM.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/TwitterCredentialsPA.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/TwitterCredentialsP.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/TwitterCredentialsS.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/GeoProcessor.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/CouchdbCredentials.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Harvester Scripts script"
+  copy: src=/home/ubuntu/harvester/SentimentAnalysis.py dest=/home/ubuntu/harvester/ mode=0777
+
+- name: "Transfer the Aurin's JSON Data"
+  copy: src=/home/ubuntu/harvester/Aurin_JSON/adelaide.json dest=/home/ubuntu/harvester/Aurin_JSON/ mode=0777
+
+- name: "Transfer the Aurin's JSON Data"
+  copy: src=/home/ubuntu/harvester/Aurin_JSON/brisbane.json dest=/home/ubuntu/harvester/Aurin_JSON/ mode=0777
+
+- name: "Transfer the Aurin's JSON Data"
+  copy: src=/home/ubuntu/harvester/Aurin_JSON/canberra.json dest=/home/ubuntu/harvester/Aurin_JSON/ mode=0777
+
+- name: "Transfer the Aurin's JSON Data"
+  copy: src=/home/ubuntu/harvester/Aurin_JSON/melbourne.json dest=/home/ubuntu/harvester/Aurin_JSON/ mode=0777
+
+- name: "Transfer the Aurin's JSON Data"
+  copy: src=/home/ubuntu/harvester/Aurin_JSON/perth.json dest=/home/ubuntu/harvester/Aurin_JSON/ mode=0777
+
+- name: "Transfer the Aurin's JSON Data"
+  copy: src=/home/ubuntu/harvester/Aurin_JSON/sydney.json dest=/home/ubuntu/harvester/Aurin_JSON/ mode=0777
+

@@ -1,0 +1,30 @@
+On Target Ansible Server:
+1. Change /etc/ssh/sshd_config to enable password authentication.
+2. Restart SSH Services: systemctl restart sshd.
+3. Reset user[ubuntu] password and keep that password for safekeeping.
+
+On Primary Ansible Server:
+1. Go to user's home directory [/home/ubuntu]
+2. Execute:
+ssh-keygen -t rsa -f /home/ubuntu/.ssh/ansible.key
+ssh-keygen -R <Second Server's IP Address>
+chmod 666 ansible.key
+ssh-copy-id -i /home/ubuntu/.ssh/ansible.key.pub ubuntu@<Second Server's IP Address>
+3. Ansible configurations:
+sudo nano /etc/ansible/hosts
+# Include second server's configuration:
+[exampleserver]
+<IP of 2nd Server>
+
+[exampleserver:vars]
+ansible_password=<Password obtained for user on Target Ansible Server[Point 3]>
+4. Check whether everything has worked out fine:
+ansible all -m ping
+# It should return something like:
+ubuntu@r-pz3h7ig2-0:~/.ssh$ ansible all -m ping
+<Second Server's IP Address> | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+
+All files in the enlisted folders of Harvester and DBServer have to be added in the primary server's /home/ubuntu directory
